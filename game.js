@@ -33,4 +33,28 @@ class Game {
         this.laneLineHeight = this.canvas.height / this.numLaneLines; // Height of each lane line
         this.laneSpeed = 4; // Speed at which lane lines move
     }
+
+startGame() {
+    this.gameStarted = true;
+    this.gameOver = false;
+    this.score = 0;
+    this.scoreElement.textContent = '0';
+    this.car = { x: this.canvas.width / 3, y: this.canvas.height - 100, speed: 5, lane: 1, width: 40, height: 60 };
+    this.car = { x: 0, y: 0, speed: 5, lane: 1, width: 40, height: 60 };
+
+    this.obstacles = [];
+    this.lastObstacleTime = 0;
+    this.gameMessage.textContent = 'Use left and right arrow keys to move between lanes';
+    this.gameMessage.classList.remove('game-over');
+    this.startButton.classList.add('hidden');
+    this.restartButton.classList.add('hidden');
+    this.pauseButton.classList.remove('hidden');
+    this.gameLoop();
+
+    // Initialize lane lines position
+    for (let i = 0; i < this.numLaneLines; i++) {
+        this.laneLines.push(i * this.laneLineHeight); // Starting positions for lane lines
+    }
+}
+
 }
