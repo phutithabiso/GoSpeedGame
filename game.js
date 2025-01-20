@@ -101,5 +101,18 @@ drawCar(x, y, color, windowColor) {
     this.ctx.fillRect(x - 3, y + this.car.height - 20, 6, 15);
     this.ctx.fillRect(x + this.car.width - 3, y + this.car.height - 20, 6, 15);
 }
+togglePause() {
+    if (this.gameOver || !this.gameStarted) return;
+
+    this.paused = !this.paused;
+
+    if (this.paused) {
+        cancelAnimationFrame(this.animationFrame);
+        this.pauseButton.textContent = 'Resume';
+    } else {
+        this.pauseButton.textContent = 'Pause';
+        this.gameLoop();
+    }
+}
 
 }
