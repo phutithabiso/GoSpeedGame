@@ -114,5 +114,91 @@ togglePause() {
         this.gameLoop();
     }
 }
+gameLoop(timestamp) {
+    if (!this.gameStarted || this.gameOver || this.paused) return;
+
+    if (!this.lastObstacleTime || timestamp - this.lastObstacleTime > 1500) {
+        this.obstacles.push(this.createObstacle());
+        this.lastObstacleTime = timestamp;
+    }
+
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.ctx.fillStyle = '#333';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    this.ctx.strokeStyle = '#fff';
+    this.ctx.setLineDash([20, 20]);
+
+    // Increase the speed of the lane lines as score increases
+    const laneSpeedIncrease = Math.min(6, this.score / 100); // Max speed increase
+
+    // Move lane lines downward and wrap them around
+    for (let i = 0; i < this.laneLines.length; i++) {
+        this.laneLines[i] += this.laneSpeed + laneSpeedIncrease;
+
+        // If the lane line is off the bottom, reset it to the top
+        if (this.laneLines[i] > this.canvas.height) {
+            this.laneLines[i] = -this.laneLineHeight;
+        }
+
+        // Draw each lane line
+        this.ctx.beginPath();
+        this.ctx.moveTo(this.canvas.width / 3, this.laneLines[i]);
+        this.ctx.lineTo(this.canvas.width / 3, this.laneLines[i] + this.laneLineHeight);
+        this.ctx.moveTo((this.canvas.width / 3) * 2, this.laneLines[i]);
+        this.ctx.lineTo((this.canvas.width / 3) * 2, this.laneLines[i] + this.laneLineHeight);
+        this.ctx.stroke();
+    }
+
+    // Increase car's speed based on score
+    this.car.speed = 5 + Math.min(10, this.score / 100);
+
+    // Gradually increase car's Y-position based on score
+    const carY = this.canvas.height - 100 - Math.min(200, this.score); // Max 200px lift
+    let collision = false;
+
+    this.obstacles = this.obstacles.filter(obstacle => {
+        obstacle.y += obstacle.speed;
+
+        if (
+            obstacle.lane === this.car.lane &&
+            obstacle.y + 40 > carY &&
+            obstacle.y < carY + 60
+        ) {
+            collision = true;
+        }
+
+        const x = (this.canvas.width / 3) * obstacle.lane + 20;
+        this.drawCar(x, obstacle.y, '#ff0000', '#990000');
+
+        return obstacle.y < this.canvas.height;
+    });
+
+    if (collision) {
+        this.gameOver = true;
+        this.gameMessage.textContent = `Game Over! Score: ${this.score}`;
+        this.gameMessage.classList.add('game-over');
+        this.restartButton.classList.remove('hidden');
+        this.pauseButton.classList.add('hidden');
+
+        // Check and update high score
+        if (this.score > this.highScore) {
+            this.highScore = this.score;
+            localStorage.setItem('highScore', this.highScore);  // Save to localStorage
+        }
+
+        this.highScoreElement.textContent = `High Score: ${this.highScore}`;
+        return;
+    }
+
+    const playerX = (this.canvas.width / 3) * this.car.lane + 20;
+    this.drawCar(playerX, carY, '#4CAF50', '#2E7D32');
+
+    this.score++;
+    this.scoreElement.textContent = this.score;
+
+    this.animationFrame = requestAnimationFrame((timestamp) => this.gameLoop(timestamp));
+}
 
 }
