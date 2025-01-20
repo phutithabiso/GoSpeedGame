@@ -88,5 +88,18 @@ handleKeyPress(e) {
         this.car.lane++;
     }
 }
+drawCar(x, y, color, windowColor) {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(x, y, this.car.width, this.car.height);
+
+    this.ctx.fillStyle = windowColor;
+    this.ctx.fillRect(x + 5, y + 10, 30, 20);
+
+    this.ctx.fillStyle = '#333';
+    this.ctx.fillRect(x - 3, y + 5, 6, 15);
+    this.ctx.fillRect(x + this.car.width - 3, y + 5, 6, 15);
+    this.ctx.fillRect(x - 3, y + this.car.height - 20, 6, 15);
+    this.ctx.fillRect(x + this.car.width - 3, y + this.car.height - 20, 6, 15);
+}
 
 }
