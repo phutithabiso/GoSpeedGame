@@ -56,5 +56,20 @@ startGame() {
         this.laneLines.push(i * this.laneLineHeight); // Starting positions for lane lines
     }
 }
+resetGame() {
+    this.gameStarted = false;
+    this.gameOver = false;
+    this.paused = false;
+    this.score = 0;
+    this.scoreElement.textContent = '0';
+    this.car = { x: this.canvas.width / 3, y: this.canvas.height - 100, speed: 5, lane: 1, width: 40, height: 60 };
+    this.obstacles = [];
+    this.lastObstacleTime = 0;
+    this.gameMessage.textContent = 'Use left and right arrow keys to move between lanes';
+    this.gameMessage.classList.remove('game-over');
+    this.startButton.classList.remove('hidden');
+    this.restartButton.classList.add('hidden');
+    this.pauseButton.classList.add('hidden');
+}
 
 }
