@@ -71,5 +71,13 @@ resetGame() {
     this.restartButton.classList.add('hidden');
     this.pauseButton.classList.add('hidden');
 }
+createObstacle() {
+    const speedIncrease = Math.min(5, this.score / 1000);
+    return {
+        lane: Math.floor(Math.random() * 3),
+        y: -50,
+        speed: 3 + speedIncrease + Math.random() * 2
+    };
+}
 
 }
