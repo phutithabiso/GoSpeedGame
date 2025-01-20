@@ -202,3 +202,7 @@ gameLoop(timestamp) {
 }
 
 }
+// Initialize game when the page loads
+window.addEventListener('load', () => {
+    new Game();
+});
