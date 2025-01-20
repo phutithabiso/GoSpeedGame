@@ -79,5 +79,14 @@ createObstacle() {
         speed: 3 + speedIncrease + Math.random() * 2
     };
 }
+handleKeyPress(e) {
+    if (!this.gameStarted || this.gameOver || this.paused) return;
+
+    if (e.key === 'ArrowLeft' && this.car.lane > 0) {
+        this.car.lane--;
+    } else if (e.key === 'ArrowRight' && this.car.lane < 2) {
+        this.car.lane++;
+    }
+}
 
 }
