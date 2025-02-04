@@ -33,17 +33,14 @@ Start Game: Click the "Start Game" button to begin the game.
 Pause/Resume: Click the "Pause" button to pause the game, and "Resume" to continue.
 Restart Game: Click the "Play Again" button to restart after a game over.
 
-
-Technologies Used
+**
+Technologies Used**
 HTML5: Structure and layout of the game.
 CSS: Styling for the game UI.
 JavaScript: Game logic, including rendering, score tracking, and collision detection.
 Canvas API: Used to render the game elements like the car, obstacles, and lane lines.
 Contributing
 Contributions are welcome! Feel free to open an issue or submit a pull request if you'd like to contribute to the development of the game.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 
 
